@@ -137,6 +137,43 @@ main {
   padding: 1.25rem 0 1.25rem;
 }
 
+.site-footer {
+  padding: 0 0 1.5rem;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-row p {
+  margin-bottom: 0;
+}
+
+.footer-license,
+.footer-repo {
+  color: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+}
+
+.github-link svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
 .map-section {
   margin-bottom: 1.5rem;
 }
@@ -356,6 +393,14 @@ h3 {
 
   .map-name {
     font-size: 0.95rem;
+  }
+
+  .footer-row {
+    display: block;
+  }
+
+  .footer-repo {
+    margin-top: 0.6rem;
   }
 }
 
