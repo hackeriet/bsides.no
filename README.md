@@ -1,28 +1,49 @@
-# BSides Norway
+# BSides.no
 
-Static HTML5 website linking to Norwegian BSides events.
+Static website for finding BSides-related events and chapters in Norway.
+
+## What this repo contains
+
+- A small HTML/CSS site with links to Norwegian BSides events
+- A simple map of southern Norway with linked city markers
+- No framework, build step, or runtime dependency
 
 ## Goals
 
-- Use plain HTML and CSS with no framework dependency.
-- Keep the site accessible for users with disabilities.
-- Keep the content readable for search engines and software agents.
-- Provide one simple page linking to Norwegian BSides events.
-- Avoid official BSides graphics until explicit permission is granted.
-- Prefer original or clearly free-to-use visual assets.
+- Keep the site fast, simple, and easy to maintain
+- Make it easy to find Norwegian BSides events from one URL
+- Prefer accessibility, readable markup, and useful structure over visual noise
+- Avoid official BSides branding assets unless explicit permission is granted
 
-## Files
+## Main files
 
-- `index.html` contains the page structure, metadata, and structured data.
-- `styles.css` contains the responsive visual design.
+- `index.html` - page structure, metadata, structured data, and small interaction scripts
+- `styles.css` - visual styling, responsive layout, and interaction states
+- `assets-norway-south-base.svg` - source map asset from Wikimedia Commons
+- `assets-norway-south-crop-h.svg` - local cropped southern Norway map used by the site
+- `LICENSE` - repository license (CC0)
 
-## Current direction
+## Licensing
 
-The current homepage is a semantic, accessible event directory inspired by existing Norwegian
-BSides chapters, especially Oslo, Kristiansand, and Bergen, while using an original visual style.
+The contents of this repository are released under CC0 unless otherwise noted.
 
-## Next steps
+Third-party assets keep their own license terms. In particular, the map asset used on the site
+is derived from a Wikimedia Commons file by NordNordWest and must keep its attribution.
 
-1. Replace the placeholder contact address with a real one.
-2. Replace listing links with the best current event URLs where needed.
-3. Keep the page updated when new Norwegian BSides events appear.
+## Contributing
+
+Edits are welcome as pull requests.
+
+Useful contributions include:
+
+- correcting event links
+- updating event dates or venue text
+- improving accessibility
+- improving the map or marker placement
+- tightening the Norwegian wording
+
+## Notes
+
+- The site currently defaults to Norwegian
+- Light and dark mode follow the user’s system preference
+- The event list is the primary navigation; the map is secondary
