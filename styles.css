@@ -127,6 +127,21 @@ h1 {
   letter-spacing: -0.04em;
 }
 
+.page-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.title-logo {
+  display: block;
+  width: auto;
+  height: clamp(3.15rem, 6.8vw, 4.3rem);
+  flex: none;
+  transform: translateY(0.18rem);
+}
+
 .intro {
   margin-bottom: 0;
   color: var(--muted);
@@ -279,6 +294,10 @@ main {
   .map-dot {
     box-shadow: 0 0 0 0.22rem rgba(16, 22, 29, 0.88);
   }
+
+  .title-logo {
+    filter: invert(1) brightness(1.05);
+  }
 }
 
 .map-attribution {
@@ -412,6 +431,10 @@ h3 {
 
   .site-header {
     padding: 1.25rem 0 0.35rem;
+  }
+
+  .page-title {
+    gap: 0.55rem;
   }
 
   main {
