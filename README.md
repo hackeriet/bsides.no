@@ -23,6 +23,8 @@ Static website for finding BSides-related events and chapters in Norway.
 - `assets-bsides-logo-original-mono.svg` - BSides logo used in the page heading
 - `assets-norway-south-base.svg` - source map asset from Wikimedia Commons
 - `assets-norway-south-crop-h.svg` - local cropped southern Norway map used by the site
+- `scripts/check_sources.py` - scheduled consistency check against chapter sites and BSides Global
+- `.github/workflows/check-content.yml` - daily GitHub Actions job for the freshness check
 - `CNAME` - GitHub Pages custom domain configuration
 - `LICENSE` - repository license (CC0)
 
@@ -56,3 +58,4 @@ Useful contributions include:
 - Light and dark mode follow the user’s system preference
 - The event list is the primary navigation; the map is secondary
 - GitHub Pages is configured for the `bsides.no` custom domain
+- A daily GitHub Actions job checks whether the local pages still match the chapter sites and BSides Global listings, opens or updates one issue on failure, and closes it again when the check passes
