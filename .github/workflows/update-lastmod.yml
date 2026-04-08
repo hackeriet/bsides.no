@@ -1,0 +1,41 @@
+name: Update lastmod metadata
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-lastmod:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Render lastmod metadata
+        env:
+          LASTMOD_SOURCE_REF: ${{ github.sha }}
+        run: python3 scripts/render_lastmod.py
+
+      - name: Commit updated metadata
+        run: |
+          if git diff --quiet -- index.html en/index.html sitemap.xml; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html en/index.html sitemap.xml
+          git commit -m "Update lastmod metadata"
+          git push

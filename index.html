@@ -6,7 +6,7 @@
     <title>BSides-arrangementer i Norge</title>
     <meta
       name="description"
-      content="BSides i Norge lenker til norske BSides-arrangementer, inkludert Oslo, Kristiansand, Bergen og Stavanger."
+      content="Oversikt over BSides-arrangementer i Norge, med lenker til lokale arrangementsider og BSides Global."
     >
     <meta
       name="keywords"
@@ -17,16 +17,33 @@
     <meta property="og:title" content="BSides i Norge">
     <meta
       property="og:description"
-      content="Et enkelt nettsted som lenker til norske BSides-arrangementer og lokale arrangementsider."
+      content="Oversikt over BSides-arrangementer i Norge, med lenker til lokale arrangementsider og BSides Global."
     >
+    <meta property="og:url" content="https://bsides.no/">
+    <meta property="og:site_name" content="BSides i Norge">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="nb_NO">
+    <meta property="og:image" content="https://bsides.no/assets-bsides-logo-original-mono.svg">
+    <meta property="og:image:alt" content="BSides logo">
+    <meta property="og:updated_time" content="2026-04-07T23:41:49+02:00">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BSides i Norge">
+    <meta
+      name="twitter:description"
+      content="Oversikt over BSides-arrangementer i Norge, med lenker til lokale arrangementsider og BSides Global."
+    >
+    <meta name="twitter:image" content="https://bsides.no/assets-bsides-logo-original-mono.svg">
     <meta name="theme-color" content="#0f1720">
     <meta name="color-scheme" content="light dark">
     <link rel="canonical" href="https://bsides.no/">
     <link rel="alternate" hreflang="no" href="https://bsides.no/">
     <link rel="alternate" hreflang="en" href="https://bsides.no/en/">
     <link rel="alternate" hreflang="x-default" href="https://bsides.no/">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="shortcut icon" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="license" href="https://bsides.no/LICENSE">
     <link rel="stylesheet" href="styles.css">
     <script type="application/ld+json">
       {
@@ -36,7 +53,7 @@
             "@type": "Organization",
             "name": "BSides i Norge",
             "url": "https://bsides.no/",
-            "description": "Et enkelt nettsted som lenker til BSides-arrangementer i Norge.",
+            "description": "Oversikt over BSides-arrangementer i Norge, med lenker til lokale arrangementsider og BSides Global.",
             "areaServed": "Norway",
             "knowsAbout": [
               "Informasjonssikkerhet",
@@ -49,7 +66,19 @@
             "@type": "WebSite",
             "name": "BSides i Norge",
             "url": "https://bsides.no/",
-            "inLanguage": "no"
+            "inLanguage": "no",
+            "dateModified": "2026-04-07"
+          },
+          {
+            "@type": "WebPage",
+            "name": "BSides-arrangementer i Norge",
+            "url": "https://bsides.no/",
+            "inLanguage": "no",
+            "datePublished": "2026-04-08",
+            "dateModified": "2026-04-07",
+            "isPartOf": {
+              "@id": "https://bsides.no/"
+            }
           },
           {
             "@type": "Event",
@@ -237,7 +266,7 @@
     </main>
     <footer class="site-footer">
       <div class="wrap wrap-list footer-row">
-        <p class="footer-license"><a href="/LICENSE">CC0 1.0</a></p>
+        <p class="footer-license"><a href="/LICENSE">CC0 (logo not included)</a></p>
         <p class="footer-repo">
           <a class="github-link" href="https://github.com/hackeriet/bsides.no" aria-label="GitHub repository">
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -250,20 +279,22 @@
     </footer>
     <script>
       (() => {
-        const linked = document.querySelectorAll("[data-city]");
-        const setActive = (city, active) => {
-          document.querySelectorAll(`[data-city="${city}"]`).forEach((el) => {
-            el.classList.toggle("is-linked-active", active);
-          });
-        };
+        const linkedElements = document.querySelectorAll("[data-city]");
 
-        linked.forEach((el) => {
-          const city = el.getAttribute("data-city");
-          if (!city) return;
-          el.addEventListener("mouseenter", () => setActive(city, true));
-          el.addEventListener("mouseleave", () => setActive(city, false));
-          el.addEventListener("focus", () => setActive(city, true));
-          el.addEventListener("blur", () => setActive(city, false));
+        function setActive(city, active) {
+          linkedElements.forEach((element) => {
+            if (element.dataset.city === city) {
+              element.classList.toggle("is-linked-active", active);
+            }
+          });
+        }
+
+        linkedElements.forEach((element) => {
+          const { city } = element.dataset;
+          element.addEventListener("mouseenter", () => setActive(city, true));
+          element.addEventListener("mouseleave", () => setActive(city, false));
+          element.addEventListener("focus", () => setActive(city, true));
+          element.addEventListener("blur", () => setActive(city, false));
         });
       })();
     </script>
