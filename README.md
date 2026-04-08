@@ -22,6 +22,7 @@ Static website for finding BSides-related events and chapters in Norway.
 - `index.template.html` and `en/index.template.html` - source templates for the published HTML files
 - `styles.css` - visual styling, responsive layout, and interaction states
 - `assets-bsides-logo-original-mono.svg` - BSides logo used in the page heading
+- `assets-hackeriet-logo.svg` - Hackeriet logo used in the site footer
 - `favicon-32x32.png`, `apple-touch-icon.png`, `android-chrome-192x192.png`, `android-chrome-512x512.png` - official BSides icon assets used for browser and app metadata
 - `manifest.webmanifest` - web app metadata for browser installability and icon discovery
 - `assets-norway-south-base.svg` - source map asset from Wikimedia Commons
@@ -52,6 +53,9 @@ The BSides logo and official icon files are not covered by the repository's CC0 
 They are included for this site based on explicit permission from BSides Global and should be
 treated as separate branded assets.
 
+The Hackeriet footer logo is also a separate branded asset and is not part of the repository-wide
+CC0 grant.
+
 The custom 404 page uses `hackers-love.jpg`, matching the design used on `hackeriet.no`.
 That image should also be treated as a separate asset, not as part of the repository-wide CC0 grant.
 
@@ -77,6 +81,7 @@ Useful contributions include:
 - GitHub Pages is configured for the `bsides.no` custom domain
 - A daily GitHub Actions job checks whether the local pages still match the chapter sites and BSides Global listings, opens or updates one issue on failure, and closes it again when the check passes
 - Pushes to `main` also refresh machine-facing `lastmod` metadata in the published pages and sitemap
+- Pushes that change the HTML templates may therefore be followed by a bot commit titled `Update lastmod metadata`
 
 ## Freshness check
 
