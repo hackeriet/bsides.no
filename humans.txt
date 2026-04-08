@@ -17,4 +17,5 @@ Hackeriet
 NordNordWest / Wikimedia Commons
 
 /* NOTES */
+English version: /en/
 Edits are welcome as pull requests.
