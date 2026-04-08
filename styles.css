@@ -170,10 +170,16 @@ main {
 }
 
 .footer-license,
-.footer-repo {
+.footer-links {
   color: var(--muted);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.95rem;
+}
+
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .github-link {
@@ -187,6 +193,20 @@ main {
   width: 1rem;
   height: 1rem;
   fill: currentColor;
+}
+
+.footer-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.footer-icon-link img {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
 }
 
 .map-section {

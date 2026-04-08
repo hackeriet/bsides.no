@@ -35,6 +35,7 @@ Static website for finding BSides-related events and chapters in Norway.
 - `robots.txt` - crawler directives with sitemap reference
 - `sitemap.xml` - simple sitemap for the published pages
 - `sitemap.template.xml` - source template for the generated sitemap
+- `humans.txt` - optional human-facing authorship and site metadata file
 - `.well-known/security.txt` and `security.txt` - security contact metadata
 - `SECURITY.md` - minimal security reporting guidance
 - `404.html` - custom GitHub Pages not-found page

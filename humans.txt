@@ -1,0 +1,20 @@
+/* TEAM */
+Maintainer: Hans-Petter Fjeld
+Organisation: Hackeriet
+Site: https://bsides.no/
+Repository: https://github.com/hackeriet/bsides.no
+
+/* SITE */
+Standards: HTML5, CSS3
+Components: Static HTML, CSS, minimal JavaScript
+Hosting: GitHub Pages
+Domain: bsides.no
+Languages: Norwegian, English
+
+/* THANKS */
+BSides Global
+Hackeriet
+NordNordWest / Wikimedia Commons
+
+/* NOTES */
+Edits are welcome as pull requests.
