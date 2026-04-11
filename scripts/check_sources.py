@@ -63,13 +63,14 @@ CHAPTERS: tuple[ChapterCheck, ...] = (
         title="BSides Kristiansand",
         city_search="Kristiansand",
         local_url="https://bsideskrs.no/",
-        venue_url="https://bsideskrs.no/venue",
+        venue_url=None,
         no_text="5. juni 2026 · Noroff i Kristiansand",
         en_text="June 5, 2026 · Noroff in Kristiansand",
         event_date_iso="2026-06-05",
         location_display="Noroff",
         local_clue_groups=(
-            ("2026-06-05", "2026-06-05 08:00"),
+            ("05 june 2026", "5 june 2026", "2026-06-05", "05 juni 2026"),
+            ("noroff university college kristiansand campus", "noroff", "location noroff"),
         ),
     ),
     ChapterCheck(
