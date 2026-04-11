@@ -23,6 +23,7 @@ def resolve_lastmod_values() -> dict[str, str]:
             ["git", "show", "-s", "--format=%cI", source_ref],
             cwd=ROOT,
             text=True,
+            timeout=6,
         ).strip()
         if not iso_timestamp:
             raise ValueError("empty git timestamp")

@@ -2,12 +2,13 @@ name: Remind about security.txt expiry
 
 on:
   schedule:
-    - cron: "17 8 * * 1"
+    - cron: "17 3 * * 1"
   workflow_dispatch:
 
 jobs:
   remind-security-txt-expiry:
     runs-on: ubuntu-latest
+    timeout-minutes: 6
     permissions:
       issues: write
 

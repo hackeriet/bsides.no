@@ -2,12 +2,13 @@ name: Check content freshness
 
 on:
   schedule:
-    - cron: "17 6 * * *"
+    - cron: "47 2 * * *"
   workflow_dispatch:
 
 jobs:
   check-content:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       issues: write

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import socket
 import sys
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -15,10 +16,11 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent.parent
 NO_INDEX = ROOT / "index.html"
 EN_INDEX = ROOT / "en" / "index.html"
-TIMEOUT_SECONDS = 20
+TIMEOUT_SECONDS = 10
 USER_AGENT = "bsides.no freshness checker (+https://bsides.no/)"
 TODAY = date.today()
 NEAR_FUTURE_DAYS = 183
+FETCH_EXCEPTIONS = (HTTPError, URLError, TimeoutError, socket.timeout)
 
 
 @dataclass(frozen=True)
@@ -268,7 +270,7 @@ def check_norway_chapters(findings: list[Finding]) -> None:
     url = "https://bsides.org/chapters/?cl_1=Norway&cl_2="
     try:
         html = fetch_text(url)
-    except (HTTPError, URLError) as exc:
+    except FETCH_EXCEPTIONS as exc:
         add_finding(findings, "Norway chapter listing", url, f"Fetch failed: {exc}")
         return
 
@@ -288,7 +290,7 @@ def check_rules_page(findings: list[Finding]) -> None:
     url = "https://bsides.org/rules/"
     try:
         rules_page = normalize(fetch_text(url))
-    except (HTTPError, URLError) as exc:
+    except FETCH_EXCEPTIONS as exc:
         add_finding(findings, "BSides Global rules", url, f"Fetch failed: {exc}")
         return
 
@@ -309,7 +311,7 @@ def compare_global_event_page(
 ) -> None:
     try:
         event_html = fetch_text(event_url)
-    except (HTTPError, URLError) as exc:
+    except FETCH_EXCEPTIONS as exc:
         add_finding(findings, "BSides Global event page", event_url, f"Fetch failed: {exc}")
         return
 
@@ -349,7 +351,7 @@ def compare_global_event_page(
 def check_local_and_global_event_state(chapter: ChapterCheck, findings: list[Finding]) -> None:
     try:
         local_html = fetch_text(chapter.local_url)
-    except (HTTPError, URLError) as exc:
+    except FETCH_EXCEPTIONS as exc:
         add_finding(findings, "Local chapter site", chapter.local_url, f"Fetch failed: {exc}")
         return
 
@@ -361,7 +363,7 @@ def check_local_and_global_event_state(chapter: ChapterCheck, findings: list[Fin
     if chapter.venue_url:
         try:
             venue_html = fetch_text(chapter.venue_url)
-        except (HTTPError, URLError) as exc:
+        except FETCH_EXCEPTIONS as exc:
             add_finding(findings, "Local venue page", chapter.venue_url, f"Fetch failed: {exc}")
         else:
             local_sources = f"{local_sources} {normalize(venue_html)}"
@@ -389,7 +391,7 @@ def check_local_and_global_event_state(chapter: ChapterCheck, findings: list[Fin
     results_url = search_results_url(chapter)
     try:
         results_html = fetch_text(results_url)
-    except (HTTPError, URLError) as exc:
+    except FETCH_EXCEPTIONS as exc:
         add_finding(findings, "BSides Global event search", results_url, f"Fetch failed: {exc}")
         return
 

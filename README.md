@@ -30,7 +30,7 @@ Static website for finding BSides-related events and chapters in Norway.
 - `scripts/check_sources.py` - scheduled consistency check against chapter sites and BSides Global
 - `scripts/render_lastmod.py` - renders machine-facing `lastmod` metadata into the published files
 - `.github/workflows/check-content.yml` - daily GitHub Actions job for the freshness check
-- `.github/workflows/update-lastmod.yml` - renders `lastmod` metadata from the triggering commit on pushes to `main`
+- `.github/workflows/update-lastmod.yml` - nightly GitHub Actions job that refreshes machine-facing `lastmod` metadata
 - `.github/workflows/remind-security-txt-expiry.yml` - opens a reminder issue before `security.txt` expires
 - `CNAME` - GitHub Pages custom domain configuration
 - `robots.txt` - crawler directives with sitemap reference
@@ -79,9 +79,9 @@ Useful contributions include:
 - Light and dark mode follow the user’s system preference
 - The event list is the primary navigation; the map is secondary
 - GitHub Pages is configured for the `bsides.no` custom domain
+- Scheduled automation is confined to off-hours UTC runs and each workflow has a job-level timeout so slow external services do not keep runners busy indefinitely
 - A daily GitHub Actions job checks whether the local pages still match the chapter sites and BSides Global listings, opens or updates one issue on failure, and closes it again when the check passes
-- Pushes to `main` also refresh machine-facing `lastmod` metadata in the published pages and sitemap
-- Pushes that change the HTML templates may therefore be followed by a bot commit titled `Update lastmod metadata`
+- A separate nightly job refreshes machine-facing `lastmod` metadata in the published pages and sitemap
 
 ## Freshness check
 
@@ -95,12 +95,19 @@ The scheduled checker verifies:
 
 The GitHub Actions workflow uses a single `content-drift` label for the automated issue it opens on failure.
 
+Operational safeguards:
+
+- the checker uses a 10-second per-request timeout for upstream HTTP fetches
+- the `check-content` workflow has a 10-minute job timeout
+- the `update-lastmod` and `remind-security-txt-expiry` workflows have 6-minute job timeouts
+
 ## Metadata rendering
 
 - `index.html`, `en/index.html`, and `sitemap.xml` are published artifacts
 - `index.template.html`, `en/index.template.html`, and `sitemap.template.xml` keep placeholder values for machine-facing `lastmod` fields
 - `scripts/render_lastmod.py` replaces those placeholders using the commit timestamp of the source revision
-- `.github/workflows/update-lastmod.yml` runs that renderer on pushes to `main`
+- `.github/workflows/update-lastmod.yml` runs that renderer once per day during the night (UTC) and can also be triggered manually
+- `scripts/render_lastmod.py` uses a 6-second subprocess timeout when resolving the source commit timestamp
 - the generated `dateModified`, `og:updated_time`, and sitemap `lastmod` values are meant for search engines, crawlers, and agents, not for visible page text
 
 ## Security metadata
