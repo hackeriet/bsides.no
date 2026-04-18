@@ -303,6 +303,19 @@ def check_rules_page(findings: list[Finding]) -> None:
     )
 
 
+def global_event_page_has_location_details(event_html: str, event_page: str) -> bool:
+    for event in iter_events_from_json_ld(event_html):
+        location = event.get("location")
+        if isinstance(location, dict) and location:
+            return True
+        if isinstance(location, list) and any(isinstance(item, dict) and item for item in location):
+            return True
+        if isinstance(location, str) and location.strip():
+            return True
+
+    return any(marker in event_page for marker in (" venue", " address", "location:", " directions"))
+
+
 def compare_global_event_page(
     chapter: ChapterCheck,
     event_url: str,
@@ -336,7 +349,7 @@ def compare_global_event_page(
             event_url,
         )
 
-    if chapter.location_display:
+    if chapter.location_display and global_event_page_has_location_details(event_html, event_page):
         local_has_location = chapter.location_display.casefold() in local_sources
         global_has_location = chapter.location_display.casefold() in event_page
         if local_has_location and not global_has_location:
