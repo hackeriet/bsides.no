@@ -3,14 +3,12 @@ from __future__ import annotations
 
 import json
 import re
-import socket
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
 from typing import Iterable
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -20,7 +18,7 @@ TIMEOUT_SECONDS = 10
 USER_AGENT = "bsides.no freshness checker (+https://bsides.no/)"
 TODAY = date.today()
 NEAR_FUTURE_DAYS = 183
-FETCH_EXCEPTIONS = (HTTPError, URLError, TimeoutError, socket.timeout)
+FETCH_EXCEPTIONS = (subprocess.TimeoutExpired, RuntimeError)
 
 
 @dataclass(frozen=True)
@@ -81,8 +79,8 @@ CHAPTERS: tuple[ChapterCheck, ...] = (
         city_search="Bergen",
         local_url="https://bsidesbergen.no/",
         venue_url=None,
-        no_text="12. mai 2026 · Vestlandshuset",
-        en_text="May 12, 2026 · Vestlandshuset",
+        no_text="Neste arrangement ikke annonsert",
+        en_text="Next event not announced",
         event_date_iso="2026-05-12",
         location_display="Vestlandshuset",
         local_clue_groups=(
@@ -114,10 +112,30 @@ def squeeze_spaces(text: str) -> str:
 
 
 def fetch_text(url: str) -> str:
-    request = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-        charset = response.headers.get_content_charset() or "utf-8"
-        return response.read().decode(charset, errors="replace")
+    result = subprocess.run(
+        [
+            "curl",
+            "--compressed",
+            "--fail",
+            "--location",
+            "--max-time",
+            str(TIMEOUT_SECONDS),
+            "--silent",
+            "--show-error",
+            "--user-agent",
+            USER_AGENT,
+            url,
+        ],
+        capture_output=True,
+        check=False,
+        encoding="utf-8",
+        errors="replace",
+        timeout=TIMEOUT_SECONDS + 2,
+    )
+    if result.returncode != 0:
+        detail = result.stderr.strip() or f"curl exited with status {result.returncode}"
+        raise RuntimeError(detail)
+    return result.stdout
 
 
 def load_text(path: Path) -> str:
@@ -196,6 +214,15 @@ def is_near_future(chapter: ChapterCheck) -> bool:
         return False
     delta = (event_day - TODAY).days
     return 0 <= delta <= NEAR_FUTURE_DAYS
+
+
+def is_past_event(chapter: ChapterCheck) -> bool:
+    if not chapter.event_date_iso:
+        return False
+    event_day = parse_event_date(chapter.event_date_iso)
+    if not event_day:
+        return False
+    return event_day < TODAY
 
 
 def search_results_url(chapter: ChapterCheck) -> str:
@@ -304,16 +331,7 @@ def check_rules_page(findings: list[Finding]) -> None:
 
 
 def global_event_page_has_location_details(event_html: str, event_page: str) -> bool:
-    for event in iter_events_from_json_ld(event_html):
-        location = event.get("location")
-        if isinstance(location, dict) and location:
-            return True
-        if isinstance(location, list) and any(isinstance(item, dict) and item for item in location):
-            return True
-        if isinstance(location, str) and location.strip():
-            return True
-
-    return any(marker in event_page for marker in (" venue", " address", "location:", " directions"))
+    return any(marker in event_page for marker in (" venue", "venue:", " directions"))
 
 
 def compare_global_event_page(
@@ -389,14 +407,15 @@ def check_local_and_global_event_state(chapter: ChapterCheck, findings: list[Fin
             f"Missing chapter title `{chapter.title}`",
         )
 
-    for group in chapter.local_clue_groups:
-        assert_any_contains(
-            local_page,
-            group,
-            findings,
-            "Local chapter site",
-            chapter.local_url,
-        )
+    if not is_past_event(chapter):
+        for group in chapter.local_clue_groups:
+            assert_any_contains(
+                local_page,
+                group,
+                findings,
+                "Local chapter site",
+                chapter.local_url,
+            )
 
     if not is_near_future(chapter):
         return

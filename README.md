@@ -97,7 +97,7 @@ The GitHub Actions workflow uses a single `content-drift` label for the automate
 
 Operational safeguards:
 
-- the checker uses a 10-second per-request timeout for upstream HTTP fetches
+- the checker uses `curl --max-time` with a 10-second per-request timeout for upstream HTTP fetches
 - the `check-content` workflow has a 10-minute job timeout
 - the `update-lastmod` and `remind-security-txt-expiry` workflows have 6-minute job timeouts
 
