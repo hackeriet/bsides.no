@@ -8,8 +8,4 @@
     <loc>https://bsides.no/en/</loc>
     <lastmod>__LASTMOD_DATE__</lastmod>
   </url>
-  <url>
-    <loc>https://bsides.no/.well-known/security.txt</loc>
-    <lastmod>__LASTMOD_DATE__</lastmod>
-  </url>
 </urlset>
