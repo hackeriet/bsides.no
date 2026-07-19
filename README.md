@@ -41,6 +41,7 @@ Static website for finding BSides-related events and chapters in Norway.
 - `humans.txt` - optional human-facing authorship and site metadata file
 - `.well-known/security.txt` and `security.txt` - security contact metadata
 - `SECURITY.md` - minimal security reporting guidance
+- `docs/security-headers.md` - recommended HTTP security headers if the site moves behind a configurable host or proxy
 - `404.html` - custom GitHub Pages not-found page
 - `LICENSE` - repository license (CC0)
 
@@ -120,3 +121,4 @@ Operational safeguards:
 - `/security.txt` mirrors the same content for older tooling
 - the security contact currently points to GitHub Issues by design; reporters are expected to request private contact there rather than post sensitive details publicly
 - a weekly GitHub Actions workflow opens a reminder issue during the last 45 days before the configured `security.txt` expiry date
+- GitHub Pages does not expose arbitrary repository-configured HTTP security headers; `docs/security-headers.md` records the baseline to use if the site moves behind a configurable host, CDN, or proxy
