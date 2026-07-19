@@ -22,6 +22,7 @@ Static website for finding BSides-related events and chapters in Norway.
 - `index.template.html` and `en/index.template.html` - source templates for the published HTML files
 - `styles.css` - visual styling, responsive layout, and interaction states
 - `assets-bsides-logo-original-mono.svg` - BSides logo used in the page heading
+- `assets-og-image.png` - raster Open Graph preview image for crawlers and social sharing
 - `assets-hackeriet-logo.svg` - Hackeriet logo used in the site footer
 - `favicon-32x32.png`, `apple-touch-icon.png`, `android-chrome-192x192.png`, `android-chrome-512x512.png` - official BSides icon assets used for browser and app metadata
 - `manifest.webmanifest` - web app metadata for browser installability and icon discovery
