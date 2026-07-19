@@ -34,8 +34,9 @@ Static website for finding BSides-related events and chapters in Norway.
 - `.github/workflows/remind-security-txt-expiry.yml` - opens a reminder issue before `security.txt` expires
 - `CNAME` - GitHub Pages custom domain configuration
 - `robots.txt` - crawler directives with sitemap reference
-- `sitemap.xml` - simple sitemap for the published pages
+- `sitemap.xml` - simple sitemap for the published user-facing pages
 - `sitemap.template.xml` - source template for the generated sitemap
+- `llms.txt` - concise agent-facing context for the site
 - `humans.txt` - optional human-facing authorship and site metadata file
 - `.well-known/security.txt` and `security.txt` - security contact metadata
 - `SECURITY.md` - minimal security reporting guidance
@@ -76,6 +77,7 @@ Useful contributions include:
 
 - The site currently defaults to Norwegian
 - An English version is available at `/en/`
+- The Norwegian page uses Bokmål language metadata (`nb-NO`) for crawlers and agents
 - Light and dark mode follow the user’s system preference
 - The event list is the primary navigation; the map is secondary
 - GitHub Pages is configured for the `bsides.no` custom domain
@@ -107,6 +109,7 @@ Operational safeguards:
 - `index.template.html`, `en/index.template.html`, and `sitemap.template.xml` keep placeholder values for machine-facing `lastmod` fields
 - `scripts/render_lastmod.py` replaces those placeholders using the commit timestamp of the source revision
 - `.github/workflows/update-lastmod.yml` runs that renderer once per day during the night (UTC) and can also be triggered manually
+- because the rendered files are committed for GitHub Pages, feature branches that touch generated HTML or sitemap files should rebase on latest `main` before opening or merging a PR, preserving the newest generated timestamps while applying template changes
 - `scripts/render_lastmod.py` uses a 6-second subprocess timeout when resolving the source commit timestamp
 - the generated `dateModified`, `og:updated_time`, and sitemap `lastmod` values are meant for search engines, crawlers, and agents, not for visible page text
 

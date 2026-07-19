@@ -1,0 +1,17 @@
+# BSides.no
+
+BSides.no is a small static directory for BSides events and chapters in Norway.
+
+Primary pages:
+- Norwegian: https://bsides.no/
+- English: https://bsides.no/en/
+
+Source repository:
+- https://github.com/hackeriet/bsides.no
+
+The site links to local BSides chapter and event pages for Oslo, Kristiansand,
+Bergen, and Stavanger. Local event details are maintained by the local
+organizers.
+
+Automated freshness checks compare the repository content with selected local
+chapter pages and BSides Global listings.
